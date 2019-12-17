@@ -269,7 +269,11 @@ class BinarySearchTree:
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self, node):
-        pass
+        print(node)
+        if node.left:
+            self.bft_print(node.left)
+        if node.right:
+            self.bft_print(node.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
