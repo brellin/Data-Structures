@@ -290,7 +290,6 @@ class BinarySearchTree:
                     print(current.value)
                     current = current.left
                 else:
-                    current = s.pop()
                     current = current.right
 
     # STRETCH Goals -------------------------
