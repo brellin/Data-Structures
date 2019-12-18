@@ -29,7 +29,7 @@ class LRUCache:
             return None
         else:
             value = self.storage[key]
-            pair = {key: value}
+            pair = (key, value)
             curr = self.dll.head
             while not curr.value == pair:
                 curr = curr.next
@@ -48,15 +48,14 @@ class LRUCache:
     """
 
     def set(self, key, value):
-        pair = {key: value}
+        pair = (key, value)
         if self.size is self.limit and key not in self.storage.keys():
-            rem = self.dll.remove_from_tail()
-            rem_key = list(rem.keys())[0]
-            self.storage.pop(rem_key)
+            rem = self.dll.remove_from_tail()[0]
+            self.storage.pop(rem)
             self.size -= 1
         if key in self.storage.keys():
             curr = self.dll.head
-            while not list(curr.value.keys())[0] == key:
+            while not curr.value[0] == key:
                 curr = curr.next
             curr.value = pair
             self.storage[key] = value
@@ -65,12 +64,3 @@ class LRUCache:
             self.dll.add_to_head(pair)
             self.storage[key] = value
             self.size += 1
-
-
-cache = LRUCache(3)
-cache.set('item1', 'a')
-cache.set('item2', 'b')
-cache.set('item3', 'c')
-cache.set('item2', 'z')
-print(cache.get('item1'))
-print(cache.get('item2'))
