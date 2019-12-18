@@ -200,6 +200,8 @@ class BinarySearchTree:
 
     # Insert the given value into the tree
     def insert(self, value):
+        if value is self.value:
+            return
         new_bst = BinarySearchTree(value)
         if self.value is None:
             self.value = new_bst
@@ -223,15 +225,9 @@ class BinarySearchTree:
         elif target is self.value:
             return True
         elif target < self.value:
-            if self.left:
-                return self.left.contains(target)
-            else:
-                return False
+            return self.left.contains(target) if self.left else False
         else:
-            if self.right:
-                return self.right.contains(target)
-            else:
-                return False
+            return self.right.contains(target) if self.right else False
 
     # Return the maximum value found in the tree
     def get_max(self):
@@ -288,16 +284,14 @@ class BinarySearchTree:
         if node:
             current = node
             s = Stack()
-            while True:
+            while current or s.len():
                 if current:
                     s.push(current)
                     print(current.value)
                     current = current.left
-                elif s.len():
+                else:
                     current = s.pop()
                     current = current.right
-                else:
-                    break
 
     # STRETCH Goals -------------------------
     # Note: Research may be required
