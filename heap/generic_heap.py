@@ -34,14 +34,14 @@ class Heap:
     def _sift_down(self, index):
         left = index * 2 if index is not 0 else 1
         right = index * 2 + 1 if index is not 0 else 2
-        big = index
-        if len(self.storage) > left and self.comparator(self.storage[left], self.storage[big]):
-            big = left
-        if len(self.storage) > right and self.comparator(self.storage[right], self.storage[big]):
-            big = right
-        if big is not index:
-            self._switch(index, big)
-            self._sift_down(big)
+        curr = index
+        if len(self.storage) > left and self.comparator(self.storage[left], self.storage[curr]):
+            curr = left
+        if len(self.storage) > right and self.comparator(self.storage[right], self.storage[curr]):
+            curr = right
+        if curr is not index:
+            self._switch(index, curr)
+            self._sift_down(curr)
 
     def _switch(self, i, j):
         self.storage[i], self.storage[j] = self.storage[j], self.storage[i]
