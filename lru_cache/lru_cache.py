@@ -1,3 +1,6 @@
+from doubly_linked_list import DoublyLinkedList, ListNode
+
+
 class LRUCache:
     """
     Our LRUCache class keeps track of the max number of nodes it
@@ -6,8 +9,12 @@ class LRUCache:
     order, as well as a storage dict that provides fast access
     to every node stored in the cache.
     """
+
     def __init__(self, limit=10):
-        pass
+        self.size = 0
+        self.limit = limit
+        self.storage = {}
+        self.dll = DoublyLinkedList()
 
     """
     Retrieves the value associated with the given key. Also
@@ -16,8 +23,18 @@ class LRUCache:
     Returns the value associated with the key or None if the
     key-value pair doesn't exist in the cache.
     """
+
     def get(self, key):
-        pass
+        if key not in self.storage.keys():
+            return None
+        else:
+            value = self.storage[key]
+            pair = {key: value}
+            curr = self.dll.head
+            while not curr.value == pair:
+                curr = curr.next
+            self.dll.move_to_front(curr)
+            return value
 
     """
     Adds the given key-value pair to the cache. The newly-
@@ -29,5 +46,31 @@ class LRUCache:
     want to overwrite the old value associated with the key with
     the newly-specified value.
     """
+
     def set(self, key, value):
-        pass
+        pair = {key: value}
+        if self.size is self.limit and key not in self.storage.keys():
+            rem = self.dll.remove_from_tail()
+            rem_key = list(rem.keys())[0]
+            self.storage.pop(rem_key)
+            self.size -= 1
+        if key in self.storage.keys():
+            curr = self.dll.head
+            while not list(curr.value.keys())[0] == key:
+                curr = curr.next
+            curr.value = pair
+            self.storage[key] = value
+            self.dll.move_to_front(curr)
+        else:
+            self.dll.add_to_head(pair)
+            self.storage[key] = value
+            self.size += 1
+
+
+cache = LRUCache(3)
+cache.set('item1', 'a')
+cache.set('item2', 'b')
+cache.set('item3', 'c')
+cache.set('item2', 'z')
+print(cache.get('item1'))
+print(cache.get('item2'))
