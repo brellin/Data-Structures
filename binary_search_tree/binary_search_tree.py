@@ -242,15 +242,14 @@ class BinarySearchTree:
     # You may use a recursive or iterative approach
 
     def for_each(self, cb):
-        def traverse(curr):
-            cb(curr.value)
-            if curr.left:
-                traverse(curr.left)
-            if curr.right:
-                traverse(curr.right)
-            if not curr.left and not curr.right:
-                return
-        traverse(self)
+        self.traverse(self, cb)
+
+    def traverse(self, curr, cb=print):
+        if not curr:
+            return
+        cb(curr.value)
+        self.traverse(curr.left, cb)
+        self.traverse(curr.right, cb)
 
     # DAY 2 Project -----------------------
 
